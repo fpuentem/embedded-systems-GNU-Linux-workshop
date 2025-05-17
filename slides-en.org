@@ -5,16 +5,20 @@
 
 * Introduction & Setting the Stage
 ** Embedded systems are everywhere!
-+ smart watch, router, car dashboard, industrial control
-  #+ATTR_ORG: :width 50
+  #+ATTR_ORG: :width 400px
   [[file:./images/embeddes-systems-everywhere.jpg]]
+
 + What is an embedded system?
-  Simple definition: computer system designed for specific function.
 + Understand the fundamental concepts behind developing software for these systems, and why the right tools (like GNU/Linux) are essential.
 
 ** Your Daily Software Experience (The "Product" View)
+  #+ATTR_HTML: :width 450px
+  [[file:./images/slide-3.png]]
 
 ** The "Black Box" Problem for Embedded Systems
+  #+ATTR_HTML: :width 450px
+  [[file:./images/slide-4.png]]
+
 + This mindset hides key concepts that are CRITICAL when you have to build software for custom, resource-constrained hardware.
 + Architecture, Cross-Compilation, Source Code, Package Management, Version Control Systems.
 
@@ -26,28 +30,36 @@
 + You are the builder, not just the user.
 
 * Unpacking the Hidden Concepts
-
 ** Concept 1: Architecture Compatibility
+#+ATTR_ORG: :width 450
+[[file:./images/slide-6.png]]
 + What is a CPU architecture? (x86, ARM, RISC-V - explain simply).
-+ Show images/diagrams of different chip types.
 + Why does it matter? Software compiled for one architecture *usually* won't run on another.
 + In embedded: You *must* target the specific chip's architecture.
 
 ** Concept 2: Cross-Compilation
+#+ATTR_ORG: :width 450
+[[file:./images/slide-7.png]]
+
 +  Compiling code on one machine (the "host") to run on a different machine (the "target").
 + Why needed for embedded? (Target might be too slow/small, or have a different architecture than your powerful development machine).
-+ Simple diagram: Host PC -> Compiler -> Target Binary -> Embedded Device.
 + Contrast with Native Compilation (compiling and running on the same machine).
 
 **  Concept 3: Source Code & The Build Process
+  #+ATTR_ORG: :width 400
+  [[file:./images/slide-8.png]]
  + What is source code? (Human-readable instructions).
  + Why is access important in embedded? (Customization, debugging low-level issues, understanding hardware interaction).
  + GitHub, GitLab
  + Basic Build Process: Source Code -> Compiler -> Object Files -> Linker -> Executable/Library.
 
 ** Concept 4: Package Management & Dependencies
+#+ATTR_ORG: :width 400
+[[file:./images/slide-9.png]]
+
 + What is a software package? (Bundled files, executables, libraries).
 + What are dependencies? (Software A needs Library B to run).
+  + NVIDIA CUDA case.
 + Managing many software components and their interdependencies manually is complex.
 + How desktop OS often hide this (bundled installers). Why that's not enough for building a whole embedded OS/system.
 
@@ -55,9 +67,13 @@
 + The "software as a product" model doesn't prepare you for these concepts, which are fundamental in embedded systems.
 
 * GNU/Linux: The Development Playground
-
 ** Introducing GNU/Linux
-+ Brief history/philosophy: Open source, transparency, control.
+#+ATTR_ORG: :width 450
+[[file:./images/slide-11.png]]
+
++ Brief history/philosophy:
+  + Richard Stallman(1984) - Software Libre(GNU).
+  + Open source, transparency, control.
 + Not just a desktop OS, but a powerful toolkit for developers.
 + Contrast user experience: Command line, file system visibility, configuration files.
 
@@ -68,28 +84,29 @@
 + Package Management (~apt~, ~yum~, etc.): Explain how they manage dependencies explicitly, resolving conflicts, installing build tools.
 
 ** Why GNU/Linux is Ideal for Embedded Development
-+ Access to essential open-source tools (GCC, GDB, Make, CMake, etc.).
++ Access to essential open-source tools (GCC, GDB, Make, CMake, Emacs, etc.).
 + Strong community support for embedded Linux development.
 + Flexibility to build custom systems.
-+ Many embedded targets *run* Linux (like Raspberry Pi, NVIDIA Jetsons, Orage Pi, etc.).
++ Many embedded targets *run* GNU/Linux (like Raspberry Pi, NVIDIA Jetsons, Orage Pi, etc.).
 
 ** Bridging the Gap
 + Using GNU/Linux helps you move from consumer to creator/developer.
 + You gain the necessary vocabulary, workflows and practical experience.
 
 * Section 4: Demo Time! Setting up for Cross-Compilation
-
 ** Demo Introduction: Our Mission
 + Goal: Set up our Ubuntu machine (Host, x86) to compile software for a Orange Pi (Target, ARM).
+  + Linux ubuntu 6.11.0-25-generic #25~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC x86_64 GNU/Linux
+  + Orange Pi PC (ARM 32-bit Allwinners H3 processor)
 + This is a practical example of cross-compilation and using Linux tools/package management.
-+  Note: We won't compile the *entire* ARMbian, but we'll install the *tools required* and show how to use them on a simple example.
++ Note: We won't compile the *entire* ARMbian, but we'll install the *tools required* and show how to use them on a simple example.
 
 ** *The Tools We Need*
 + Cross-compiler toolchain (e.g., ~gcc-arm-linux-gnueabihf~).
 + Necessary libraries and headers for the target architecture.
 + Mention these are available as packages in Ubuntu's repositories.
 
-**  Step 1: Install the Toolchain
+** Step 1: Install the Toolchain
 + Show opening a terminal.
   #+BEGIN_SRC bash
     sudo apt update
@@ -117,30 +134,35 @@
     + Explain: This file is now compiled for ARM and *will not run* on our Ubuntu x86 machine directly.
 
 ** Verifying the Output / Running on Target (Show & Tell)
-+ (If possible/time permits) Show ~file hello_pi~ output to demonstrate it's an ARM executable.
-+ (Show image/short video) How you would transfer ~hello_pi~ to a Raspberry Pi and run it there. Emphasize this is the *deployment* step.
++ Show ~file hello_pi~ output to demonstrate it's an ARM executable.
++ How you would transfer ~hello_pi~ to a Raspberry Pi and run it there. Emphasize this is the *deployment* step.
+  #+BEGIN_SRC bash
+    scp ~/projects/embedded-systems-GNU-Linux-workshop/ orange@192.168.15.93:/home/orange/
+  #+END_SRC
 
 * Reflecting on the Demo & Next Steps
-
 ** Connecting the Demo Back to Concepts
-+ We *cross-compiled* (Slide 19).
-+ We targeted a specific *architecture* (ARM HF) (Slide 17, 19).
-+ We worked with *source code* (Slide 18).
-+ We used *package management* (~apt~) to get our tools (Slide 17).
++ We *cross-compiled*.
++ We targeted a specific *architecture* (ARM HF).
++ We worked with *source code*.
++ We used *package management* (~apt~) to get our tools.
 + Contrast again: How would you do *any* of this on a standard "product" OS without installing significant developer environments?
 
-** *Beyond This Demo*
-+ Mention that compiling a full OS involves build systems (Buildroot, Yocto - high level).
-+ Briefly touch on bootloaders, kernels (Linux), root filesystems.
-+ All these steps rely heavily on the concepts and tools available in a GNU/Linux environment.
-
 ** Where to Go From Here?
-+ Encourage them to install GNU/Linux (Ubuntu, Fedora, etc.).
++ Install GNU/Linux (Ubuntu, Debian, Trisquel, Fedora, etc.).
 + Explore the command line.
 + Look into embedded Linux resources (Raspberry Pi documentation, Buildroot/Yocto documentation).
 + Suggest projects (simple LED blink on Pi via SSH, controlling GPIO, kernel modules).
 
+** Resources
++ Youtube
+  + [[https://www.youtube.com/@johannes4gnu_linux96][Johannes 4GNU_Linux]]
+  + [[https://www.youtube.com/@spradotube][Sergio Prado Embarcados]]
+  + [[https://bootlin.com/][Bootlin – Embedded Linux and kernel engineering]]
++ Books
+  + [[https://nostarch.com/howlinuxworks3][How Linux Works, 3rd Edition]]
+  + [[https://github.com/ivito/cookbook/blob/master/Linux/UNIX%20and%20Linux%20System%20Administration%20Handbook,%204th%20Edition.pdf][UNIX and Linux System Administration Handbook, 4th Edition]]
+
 ** *Q&A and Conclusion*
-+ Summarize the main takeaway: Embracing GNU/Linux unlocks a deeper understanding of computing and is fundamental for embedded systems development.
++ Embracing GNU/Linux unlocks a deeper understanding of computing and is fundamental for embedded systems development.
 + Thank You!
-+ Open floor for Questions.
