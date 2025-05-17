@@ -34,7 +34,7 @@
     * Diverse hardware (not just x86).
     * Need for customization and optimization.
     * Often no screen/keyboard - different deployment methods.
-    * You are the builder, not just the user. (Copernican Revolution)
+    * You are the builder, not just the user.
 
 * Section 2: Unpacking the Hidden Concepts (Slides 6-10)
 
@@ -67,16 +67,16 @@
 
 * Section 3: GNU/Linux: The Development Playground (Slides 11-14)
 
-** Slide 11: Introducing GNU/Linux*
+** Slide 11: Introducing GNU/Linux
     * Brief history/philosophy: Open source, transparency, control.
     * Not just a desktop OS, but a powerful toolkit for developers.
     * Contrast user experience: Command line, file system visibility, configuration files.
 
 ** *Slide 12: How Linux Exposes the Concepts*
-    * Architecture: You see it in package names (`.deb` for `armhf`, `amd64`), kernel versions.
+    * Architecture: You see it in package names (~.deb~ for ~armhf~, ~amd64~), kernel versions.
     * Compilation: Compiling from source is a common task. You interact with compilers, makefiles.
     * Source Code: Readily available for kernel, tools, libraries. You're encouraged to look.
-    * Package Management (`apt`, `yum`, etc.): Explain how they manage dependencies explicitly, resolving conflicts, installing build tools.
+    * Package Management (~apt~, ~yum~, etc.): Explain how they manage dependencies explicitly, resolving conflicts, installing build tools.
 
 ** *Slide 13: Why GNU/Linux is Ideal for Embedded Development*
     * Access to essential open-source tools (GCC, GDB, Make, CMake, etc.).
@@ -96,42 +96,42 @@
     * Note: We won't compile the *entire* Raspbian/RPi OS, but we'll install the *tools required* and show how to use them on a simple example.
 
 ** *Slide 16: The Tools We Need*
-    * Cross-compiler toolchain (e.g., `gcc-arm-linux-gnueabihf`).
+    * Cross-compiler toolchain (e.g., ~gcc-arm-linux-gnueabihf~).
     * Necessary libraries and headers for the target architecture.
     * Mention these are available as packages in Ubuntu's repositories.
 
 ** *Slide 17: Step 1: Install the Toolchain (Live/Recorded Demo)*
     * Show opening a terminal.
-    * Show the command: `sudo apt update` (Explain why).
-    * Show the command: `sudo apt install crossbuild-essential-armhf` (or the specific package name that pulls in the ARM hard-float toolchain).
-    * Explain what `apt` is doing: Downloading packages, resolving dependencies, installing files. Connect back to "Package Management".
+    * Show the command: ~sudo apt update~ (Explain why).
+    * Show the command: ~sudo apt install crossbuild-essential-armhf~ (or the specific package name that pulls in the ARM hard-float toolchain).
+    * Explain what ~apt~ is doing: Downloading packages, resolving dependencies, installing files. Connect back to "Package Management".
 
 ** *Slide 18: Step 2: Prepare Source Code (Live/Recorded Demo)*
     * Navigate to a demo directory.
-    * Create a simple C "Hello World" program (e.g., `hello.c`).
+    * Create a simple C "Hello World" program (e.g., ~hello.c~).
     * Briefly explain the C code.
 
 ** *Slide 19: Step 3: Cross-Compiling! (Live/Recorded Demo)*
     * Show the cross-compilation command:
-        * `arm-linux-gnueabihf-gcc hello.c -o hello_pi`
+        * ~arm-linux-gnueabihf-gcc hello.c -o hello_pi~
     * Explain the command:
-        * `arm-linux-gnueabihf-gcc`: This is the *cross-compiler* executable (note the prefix indicating the target).
-        * `hello.c`: Input source file.
-        * `-o hello_pi`: Output executable name.
-    * Show the output executable file (`hello_pi`).
+        * ~arm-linux-gnueabihf-gcc~: This is the *cross-compiler* executable (note the prefix indicating the target).
+        * ~hello.c~: Input source file.
+        * ~-o hello_pi~: Output executable name.
+    * Show the output executable file (~hello_pi~).
     * Explain: This file is now compiled for ARM and *will not run* on our Ubuntu x86 machine directly.
 
 ** *Slide 20: (Optional) Verifying the Output / Running on Target (Show & Tell)*
-    * (If possible/time permits) Show `file hello_pi` output to demonstrate it's an ARM executable.
-    * (Show image/short video) How you would transfer `hello_pi` to a Raspberry Pi and run it there. Emphasize this is the *deployment* step.
+    * (If possible/time permits) Show ~file hello_pi~ output to demonstrate it's an ARM executable.
+    * (Show image/short video) How you would transfer ~hello_pi~ to a Raspberry Pi and run it there. Emphasize this is the *deployment* step.
 
-* Section 5: Reflecting on the Demo & Next Steps (Slides 21-24)**
+* Section 5: Reflecting on the Demo & Next Steps (Slides 21-24)
 
 ** *Slide 21: Connecting the Demo Back to Concepts*
     * We *cross-compiled* (Slide 19).
     * We targeted a specific *architecture* (ARM HF) (Slide 17, 19).
     * We worked with *source code* (Slide 18).
-    * We used *package management* (`apt`) to get our tools (Slide 17).
+    * We used *package management* (~apt~) to get our tools (Slide 17).
     * Contrast again: How would you do *any* of this on a standard "product" OS without installing significant developer environments?
 
 ** *Slide 22: Beyond This Demo*
