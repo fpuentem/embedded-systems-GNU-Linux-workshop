@@ -6,7 +6,7 @@
 * Introduction & Setting the Stage
 ** Embedded systems are everywhere!
   #+ATTR_ORG: :width 400px
-  [[file:./images/embeddes-systems-everywhere.jpg]]
+  [[file:./images/slide-2.png]]
 
 + What is an embedded system?
 + Understand the fundamental concepts behind developing software for these systems, and why the right tools (like GNU/Linux) are essential.
@@ -45,7 +45,7 @@
 + Why needed for embedded? (Target might be too slow/small, or have a different architecture than your powerful development machine).
 + Contrast with Native Compilation (compiling and running on the same machine).
 
-**  Concept 3: Source Code & The Build Process
+** Concept 3: Source Code & The Build Process
   #+ATTR_ORG: :width 400
   [[file:./images/slide-8.png]]
  + What is source code? (Human-readable instructions).
@@ -97,7 +97,13 @@
 ** Demo Introduction: Our Mission
 + Goal: Set up our Ubuntu machine (Host, x86) to compile software for a Orange Pi (Target, ARM).
   + Linux ubuntu 6.11.0-25-generic #25~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC x86_64 GNU/Linux
+    #+BEGIN_SRC bash
+      uname -a
+    #+END_SRC
+
   + Orange Pi PC (ARM 32-bit Allwinners H3 processor)
+    #+ATTR_ORG: :width 450
+    [[./images/banner-PC.jpg]]
 + This is a practical example of cross-compilation and using Linux tools/package management.
 + Note: We won't compile the *entire* ARMbian, but we'll install the *tools required* and show how to use them on a simple example.
 
@@ -108,34 +114,99 @@
 
 ** Step 1: Install the Toolchain
 + Show opening a terminal.
+  1. Update repositories
   #+BEGIN_SRC bash
     sudo apt update
-    sudo apt install crossbuild-essential-armhf
+    sudo apt upgrade
   #+END_SRC
 
+  2. Install toolkits
+     #+BEGIN_SRC bash
+       sudo apt install git make gcc wget \
+            g++ device-tree-compiler bc bison \
+            flex libssl-dev libncurses-dev \
+            python3-ply python3-git libgmp3-dev libmpc-dev
+     #+END_SRC
+
+   3. Install an up-to-date cross compiler and associated toolset
+      #+BEGIN_SRC bash
+        cd Downloads
+        wget https://snapshots.linaro.org/gnu-toolchain/14.0-2023.06-1/arm-linux-gnueabihf/gcc-linaro-14.0.0-2023.06-x86_64_arm-linux-gnueabihf.tar.xz
+        tar xf gcc-linaro-14.0.0-2023.06-x86_64_arm-linux-gnueabihf.tar.xz -C ~/tools/
+      #+END_SRC
 + Explain what ~apt~ is doing: Downloading packages, resolving dependencies, installing files. Connect back to "Package Management".
 
 ** Step 2: Prepare Source Code
 + Navigate to a demo directory.
 + Create a simple C "Hello World" program (e.g., ~hello.c~).
+  #+BEGIN_SRC c :tangle ./demo/hello.c
+    #include <stdio.h>
+    #include <stdlib.h>
+    #include <unistd.h>
+    #include <fcntl.h>
+    #include <string.h>
+
+    #define GPIO_PIN "12"  // Example: GPIO15 (change as needed)
+    #define GPIO_PATH "/sys/class/gpio"
+    #define BUFFER_SIZE 64
+
+    void write_to_file(const char *path, const char *value) {
+        int fd = open(path, O_WRONLY);
+        if (fd == -1) {
+            perror("Error opening file");
+            exit(1);
+        }
+        if (write(fd, value, strlen(value)) == -1) {
+            perror("Error writing to file");
+            close(fd);
+            exit(1);
+        }
+        close(fd);
+    }
+
+    int main() {
+        char path[BUFFER_SIZE];
+
+        // Export the GPIO pin
+        write_to_file(GPIO_PATH "/export", GPIO_PIN);
+
+        // Set direction to output
+        snprintf(path, BUFFER_SIZE, GPIO_PATH "/gpio%s/direction", GPIO_PIN);
+        write_to_file(path, "out");
+
+        // Blink loop
+        snprintf(path, BUFFER_SIZE, GPIO_PATH "/gpio%s/value", GPIO_PIN);
+        for (int i = 0; i < 10; i++) {
+            write_to_file(path, "1");
+            sleep(1);
+            write_to_file(path, "0");
+            sleep(1);
+        }
+
+        // Unexport the pin
+        write_to_file(GPIO_PATH "/unexport", GPIO_PIN);
+
+        return 0;
+    }
+  #+END_SRC
 + Briefly explain the C code.
 
 ** Step 3: Cross-Compiling!
 + Show the cross-compilation command:
   #+BEGIN_SRC bash
-    arm-linux-gnueabihf-gcc hello.c -o hello_pi
+    arm-linux-gnueabihf-gcc hello.c -o hello_orange_pi
   #+END_SRC
 
 + Explain the command:
   + ~arm-linux-gnueabihf-gcc~: This is the *cross-compiler* executable (note the prefix indicating the target).
   + ~hello.c~: Input source file.
-  + ~-o hello_pi~: Output executable name.
-  + Show the output executable file (~hello_pi~).
+  + ~-o hello_orange_pi~: Output executable name.
+  + Show the output executable file (~hello_orange_pi~).
     + Explain: This file is now compiled for ARM and *will not run* on our Ubuntu x86 machine directly.
 
 ** Verifying the Output / Running on Target (Show & Tell)
-+ Show ~file hello_pi~ output to demonstrate it's an ARM executable.
-+ How you would transfer ~hello_pi~ to a Raspberry Pi and run it there. Emphasize this is the *deployment* step.
++ Show ~file hello_orange_pi~ output to demonstrate it's an ARM executable.
++ How you would transfer ~hello_orange_pi~ to a Orange Pi PC and run it there. Emphasize this is the *deployment* step.
   #+BEGIN_SRC bash
     scp ~/projects/embedded-systems-GNU-Linux-workshop/ orange@192.168.15.93:/home/orange/
   #+END_SRC
