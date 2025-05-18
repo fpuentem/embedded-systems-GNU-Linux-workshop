@@ -5,7 +5,7 @@
 
 * Introduction & Setting the Stage
 ** Embedded systems are everywhere!
-  #+ATTR_ORG: :width 400px
+  #+ATTR_HTML: :width 400px
   [[file:./images/slide-2.png]]
 
 + What is an embedded system?
@@ -31,14 +31,14 @@
 
 * Unpacking the Hidden Concepts
 ** Concept 1: Architecture Compatibility
-#+ATTR_ORG: :width 450
+#+ATTR_HTML: :width 450px
 [[file:./images/slide-6.png]]
 + What is a CPU architecture? (x86, ARM, RISC-V - explain simply).
 + Why does it matter? Software compiled for one architecture *usually* won't run on another.
 + In embedded: You *must* target the specific chip's architecture.
 
 ** Concept 2: Cross-Compilation
-#+ATTR_ORG: :width 450
+#+ATTR_HTML: :width 400px
 [[file:./images/slide-7.png]]
 
 + Compiling code on one machine (the "host") to run on a different machine (the "target").
@@ -47,6 +47,7 @@
 
 ** Concept 3: Source Code & The Build Process
   #+ATTR_ORG: :width 400
+  #+ATTR_HTML: :width 400px
   [[file:./images/slide-8.png]]
  + What is source code? (Human-readable instructions).
  + Why is access important in embedded? (Customization, debugging low-level issues, understanding hardware interaction).
@@ -55,6 +56,7 @@
 
 ** Concept 4: Package Management & Dependencies
 #+ATTR_ORG: :width 400
+#+ATTR_HTML: :width 400px
 [[file:./images/slide-9.png]]
 
 + What is a software package? (Bundled files, executables, libraries).
@@ -69,6 +71,7 @@
 * GNU/Linux: The Development Playground
 ** Introducing GNU/Linux
 #+ATTR_ORG: :width 450
+#+ATTR_HTML: :width 400px
 [[file:./images/slide-11.png]]
 
 + Brief history/philosophy:
@@ -103,6 +106,7 @@
 
   + Orange Pi PC (ARM 32-bit Allwinners H3 processor)
     #+ATTR_ORG: :width 450
+    #+ATTR_HTML: :width 400px
     [[./images/banner-PC.jpg]]
 + This is a practical example of cross-compilation and using Linux tools/package management.
 + Note: We won't compile the *entire* ARMbian, but we'll install the *tools required* and show how to use them on a simple example.
