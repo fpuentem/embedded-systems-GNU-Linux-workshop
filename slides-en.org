@@ -128,7 +128,7 @@
             python3-ply python3-git libgmp3-dev libmpc-dev
      #+END_SRC
 
-   3. Install an up-to-date cross compiler and associated toolset
+  3. Install an up-to-date cross compiler and associated toolset
       #+BEGIN_SRC bash
         cd Downloads
         wget https://snapshots.linaro.org/gnu-toolchain/14.0-2023.06-1/arm-linux-gnueabihf/gcc-linaro-14.0.0-2023.06-x86_64_arm-linux-gnueabihf.tar.xz
@@ -137,7 +137,7 @@
 + Explain what ~apt~ is doing: Downloading packages, resolving dependencies, installing files. Connect back to "Package Management".
 
 ** Step 2: Prepare Source Code
-+ Navigate to a demo directory.
++ Navigate to a ~demo~ directory.
 + Create a simple C "Hello World" program (e.g., ~hello.c~).
   #+BEGIN_SRC c :tangle ./demo/hello.c
     #include <stdio.h>
@@ -189,7 +189,6 @@
         return 0;
     }
   #+END_SRC
-+ Briefly explain the C code.
 
 ** Step 3: Cross-Compiling!
 + Show the cross-compilation command:
@@ -202,13 +201,13 @@
   + ~hello.c~: Input source file.
   + ~-o hello_orange_pi~: Output executable name.
   + Show the output executable file (~hello_orange_pi~).
-    + Explain: This file is now compiled for ARM and *will not run* on our Ubuntu x86 machine directly.
+    + This file is now compiled for ARM and *will not run* on our Ubuntu x86 machine directly.
 
 ** Verifying the Output / Running on Target (Show & Tell)
 + Show ~file hello_orange_pi~ output to demonstrate it's an ARM executable.
 + How you would transfer ~hello_orange_pi~ to a Orange Pi PC and run it there. Emphasize this is the *deployment* step.
   #+BEGIN_SRC bash
-    scp ~/projects/embedded-systems-GNU-Linux-workshop/ orange@192.168.15.93:/home/orange/
+    scp ~/projects/embedded-systems-GNU-Linux-workshop/demo/hello_orange_pi orange@192.168.1.x:/home/orange/projects
   #+END_SRC
 
 * Reflecting on the Demo & Next Steps
