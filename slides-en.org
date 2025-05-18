@@ -41,7 +41,7 @@
 #+ATTR_ORG: :width 450
 [[file:./images/slide-7.png]]
 
-+  Compiling code on one machine (the "host") to run on a different machine (the "target").
++ Compiling code on one machine (the "host") to run on a different machine (the "target").
 + Why needed for embedded? (Target might be too slow/small, or have a different architecture than your powerful development machine).
 + Contrast with Native Compilation (compiling and running on the same machine).
 
